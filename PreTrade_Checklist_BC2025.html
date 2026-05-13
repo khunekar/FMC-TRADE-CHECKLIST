@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pre-Trade Checklist — BC 2025</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:#fff;color:#111;padding:32px 28px 48px;max-width:1100px;margin:0 auto;font-size:13px}
+
+/* HEADER */
+.top-bar{height:4px;background:#D4A017;margin-bottom:0}
+.hdr{padding:28px 0 18px;display:flex;align-items:flex-start;justify-content:space-between;border-bottom:1px solid #d0d0d0;margin-bottom:20px}
+.main-title{font-family:'Arial Black',Arial,sans-serif;font-size:46px;font-weight:900;letter-spacing:1px;line-height:1;color:#111}
+.main-title span{color:#D4A017}
+.hdr-sub{font-family:'Courier New',monospace;font-size:10px;letter-spacing:2px;color:#666;margin-top:8px;line-height:1.6}
+.hdr-pill{display:inline-flex;align-items:center;border:1.5px solid #333;padding:6px 14px;font-family:'Courier New',monospace;font-size:10px;font-weight:700;letter-spacing:1.5px;color:#333;margin-top:10px}
+.badge-7s{font-family:'Arial Black',Arial,sans-serif;font-size:72px;font-weight:900;color:#e0e0e0;line-height:1;user-select:none}
+
+/* PROGRESS */
+.prog-wrap{margin-bottom:20px}
+.prog-row{display:flex;justify-content:space-between;margin-bottom:5px}
+.prog-lbl{font-family:'Courier New',monospace;font-size:10px;color:#888;letter-spacing:1px}
+.prog-pct{font-family:'Courier New',monospace;font-size:10px;color:#27AE60;font-weight:700}
+.prog-track{height:4px;background:#eee;border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:#27AE60;border-radius:2px;transition:width .2s;width:0%}
+
+/* RESET */
+.reset-btn{position:fixed;top:16px;right:16px;background:#111;color:#fff;border:none;padding:7px 14px;font-family:'Courier New',monospace;font-size:10px;letter-spacing:1.5px;cursor:pointer;z-index:100;border-radius:3px}
+.reset-btn:hover{background:#333}
+
+/* MAIN 3-COL GRID */
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border:1px solid #d8d8d8;margin-bottom:16px}
+.grid3 .cell{padding:18px 16px;border-right:1px solid #d8d8d8}
+.grid3 .cell:last-child{border-right:none}
+
+/* STEP 07 full width */
+.step07{border:1px solid #d8d8d8;margin-bottom:16px;padding:18px 16px}
+.step07 .items-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:10px}
+
+/* STRATEGY 3-COL */
+.strat3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border:1px solid #d8d8d8;margin-bottom:16px}
+.strat3 .scell{padding:16px;border-right:1px solid #d8d8d8}
+.strat3 .scell:last-child{border-right:none}
+
+/* STEP HEADER */
+.step-lbl{font-family:'Courier New',monospace;font-size:9px;font-weight:700;letter-spacing:2px;color:#aaa;margin-bottom:3px}
+.step-title-row{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.step-icon{font-size:20px;line-height:1}
+.step-title{font-size:16px;font-weight:800;color:#0a0a0a}
+
+/* ITEM ROW */
+.item{display:flex;align-items:flex-start;gap:7px;padding:6px 7px;margin-bottom:4px;border-radius:5px;border:1px solid transparent;cursor:pointer;transition:background .1s,border-color .1s}
+.item:hover{background:#f5f5f5;border-color:#ccc}
+.item.ticked{background:#f0fbf4;border-color:#27AE60}
+.cb{width:18px;height:18px;border:2px solid #bbb;border-radius:3px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;background:#fff;transition:background .1s,border-color .1s}
+.item.ticked .cb{background:#27AE60;border-color:#1E8449}
+.ck{display:none}
+.item.ticked .ck{display:block}
+.item-body{flex:1;min-width:0}
+.item-text{font-size:12px;font-weight:500;color:#1a1a1a;line-height:1.4}
+.item-text b{font-weight:700;color:#000}
+.item-note{font-family:'Courier New',monospace;font-size:9px;color:#aaa;margin-top:2px;line-height:1.35}
+
+/* INLINE BADGES */
+.tag{display:inline-flex;align-items:center;background:#1a3a6b;color:#fff;font-family:'Courier New',monospace;font-size:9px;font-weight:700;padding:1px 6px;border-radius:3px;margin:0 2px;vertical-align:middle}
+.tag-poi{background:#7b2d8b}
+.tag-ukl{background:#b05a00}
+.tag-sm{background:#c0392b}
+.tag-trend{background:#1a7f37;font-size:9px;padding:1px 6px;border-radius:3px}
+.tag-smmt{background:#1a5fab;font-size:9px;padding:1px 6px;border-radius:3px}
+.tag-counter{background:#b05a00;font-size:9px;padding:1px 6px;border-radius:3px}
+
+/* NOTE LINE (no checkbox) */
+.note-line{font-family:'Courier New',monospace;font-size:9px;color:#aaa;letter-spacing:1px;padding:4px 7px;text-transform:uppercase;font-weight:700}
+
+/* STRATEGY */
+.strat-lbl{font-family:'Courier New',monospace;font-size:9px;letter-spacing:2px;color:#aaa;font-weight:700;margin-bottom:6px;text-transform:uppercase}
+.strat-title-row{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.strat-title{font-size:15px;font-weight:800}
+.strat-title.ckl{color:#1a5fab}
+.strat-title.smc{color:#27AE60}
+.strat-title.ukl{color:#D4A017}
+
+/* FOOTER TAGS */
+.footer-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px;margin-bottom:8px}
+.ftag{background:#f0f0f0;border:1px solid #ddd;padding:4px 12px;border-radius:20px;font-family:'Courier New',monospace;font-size:10px;color:#444;font-weight:600}
+.footer-brand{font-family:'Courier New',monospace;font-size:9px;color:#ccc;letter-spacing:2px;text-align:right;margin-top:8px}
+</style>
+</head>
+<body>
+
+<button class="reset-btn" onclick="resetAll()">↺ RESET</button>
+<div class="top-bar"></div>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div>
+    <div class="main-title">PRE-TRADE <span>CHECKLIST</span></div>
+    <div class="hdr-sub">BC 2025 STRATEGY · NCI TRADING SYSTEM · COMPLETE ALL STEPS<br>BEFORE ENTRY</div>
+    <div class="hdr-pill">7 STEPS · 3 STRATEGIES · 1 RULE: FOLLOW THE FLOW</div>
+  </div>
+  <div class="badge-7s">7S</div>
+</div>
+
+<!-- PROGRESS -->
+<div class="prog-wrap">
+  <div class="prog-row">
+    <span class="prog-lbl" id="prog-lbl">0 / 0 CHECKED</span>
+    <span class="prog-pct" id="prog-pct">0%</span>
+  </div>
+  <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
+</div>
+
+<!-- ROW 1: STEPS 01 02 03 -->
+<div class="grid3">
+
+  <!-- STEP 01 -->
+  <div class="cell">
+    <div class="step-lbl">STEP 01</div>
+    <div class="step-title-row"><span class="step-icon">🌊</span><span class="step-title">Read the Wave</span></div>
+
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text">Zoom out chart to <b>smallest view</b></div></div></div>
+
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text">Analyze last <b>600 bars</b> from current candle</div><div class="item-note">Wave first — candle analysis second</div></div></div>
+
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text">Identify <b>wave shape</b></div><div class="item-note">Case 1: Strong breakout · Case 2: V-shape · Case 3: I-shape long trend</div></div></div>
+
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text">Locate the <b>latest / most recent trend</b></div><div class="item-note">Look for strong breakout that invalidated prior structure</div></div></div>
+
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text">V-shape: analyze <b>both down + up waves</b> left-to-right</div><div class="item-note">Confirm down trend is finished before looking for up entries</div></div></div>
+  </div>
+
+  <!-- STEP 02 -->
+  <div class="cell">
+    <div class="step-lbl">STEP 02</div>
+    <div class="step-title-row"><span class="step-icon">📈</span><span class="step-title">Define the Trend</span></div>
+
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text">Mark the <b>Key Level (KL)</b> on chart <span class="tag">KL</span></div><div class="item-note">Only KL defines trend — not POI zone</div></div></div>
+
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text">Price <b>below KL</b> → trend is <b>DOWN</b> (sell bias)</div></div></div>
+
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text">Price <b>above KL</b> → trend is <b>UP</b> (buy bias)</div></div></div>
+
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text">Price <b>just broke KL</b> → trend has changed</div><div class="item-note">Adjust bias immediately on confirmed KL break</div></div></div>
+  </div>
+
+  <!-- STEP 03 -->
+  <div class="cell">
+    <div class="step-lbl">STEP 03</div>
+    <div class="step-title-row"><span class="step-icon">⚡</span><span class="step-title">Assess Momentum (MMT)</span></div>
+
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text">Identify if trend momentum is <b>strong or weak</b></div><div class="item-note">Strong MMT = CKL or SMC · Weak MMT = UKL strategy</div></div></div>
+
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text"><b>Strong KL</b> = momentum favors continuation</div><div class="item-note">Breaking a strong KL = trend changes</div></div></div>
+
+    <div class="note-line">MOMENTUM IS THE CORE OF NCI SYSTEM</div>
+  </div>
+</div>
+
+<!-- ROW 2: STEPS 04 05 06 -->
+<div class="grid3">
+
+  <!-- STEP 04 -->
+  <div class="cell">
+    <div class="step-lbl">STEP 04</div>
+    <div class="step-title-row"><span class="step-icon">✅</span><span class="step-title">Qualify KL Zone (FMC)</span></div>
+
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text"><b>F1 FRESH</b> — Zone never visited before <span class="tag">KL</span></div><div class="item-note">Fibo: if price bounced from discount 61.8-80% → UN-FRESH, skip</div></div></div>
+
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text">Fresh check: market <b>bounced</b>, not just tapped</div></div></div>
+
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text"><b>F2 MOMENTUM</b> — Angle of wave ≥ 67.5°</div><div class="item-note">Measure: lowest pullback low – drag to recent high. Angle > IMB always.</div></div></div>
+
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text">IMB size ≥ <b>biggest Maru in last 5 Marus</b> on left</div><div class="item-note">Compound adjacent IMBs unless reversal Maru separates them</div></div></div>
+
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text"><b>F3 CLEAN BASE</b> — No equal highs/lows in pullback</div><div class="item-note">Equal C=A and D=B → Unclean BASE, skip entry</div></div></div>
+  </div>
+
+  <!-- STEP 05 -->
+  <div class="cell">
+    <div class="step-lbl">STEP 05</div>
+    <div class="step-title-row"><span class="step-icon">🎯</span><span class="step-title">Qualify POI Zone (FMC)</span></div>
+
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text">POI is <b>Fresh</b> — market has not tested it yet <span class="tag tag-poi">POI</span></div></div></div>
+
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text">POI is inside <b>Discount zone (61.8–80% Fibo)</b></div><div class="item-note">POI = strongest tradeable zone in discount. Not for trend direction.</div></div></div>
+
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text"><b>Institutional Candle (IC)</b> present in discount</div><div class="item-note">Best: Up Maru → Down Maru IC → Up Maru · Also valid: Maru → Pinbar → Maru</div></div></div>
+
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text">IC size ≥ <b>50% of next Maru</b> to right (30% if next Maru very large)</div></div></div>
+
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text">Candle before + after IC are <b>both Maru candles</b></div><div class="item-note">IMB right after IC = strongest POI signal of all</div></div></div>
+  </div>
+
+  <!-- STEP 06 -->
+  <div class="cell">
+    <div class="step-lbl">STEP 06</div>
+    <div class="step-title-row"><span class="step-icon">💥</span><span class="step-title">Shock Move — UKL Only</span></div>
+
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text">Confirmation needed <b>ONLY for UKL</b> (counter-trend) <span class="tag tag-ukl">UKL</span></div></div></div>
+
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text">Shock Move (SM): strong wave with <b>IMB inside, 3–5+ candles</b> <span class="tag tag-sm">SM</span></div><div class="item-note">Best: 4 big Marubozu moving continuously one direction</div></div></div>
+
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text"><b>SM angle of wave ≥ 67.5°</b></div><div class="item-note">Measure from highest high of SM to take-profit level</div></div></div>
+
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text">SM is <b>NOT formed after a range</b></div><div class="item-note">Post-range Maru = buyers exiting, not a valid shock move</div></div></div>
+
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text">Special: <b>single very large Maru</b> qualifies if much bigger than prior candles</div></div></div>
+  </div>
+</div>
+
+<!-- STEP 07 -->
+<div class="step07">
+  <div class="step-lbl">STEP 07</div>
+  <div class="step-title-row"><span class="step-icon">💰</span><span class="step-title">Take Profit with MMT — NCI 2026 Standard</span></div>
+  <div class="items-row">
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text">Identify <b>potential TP levels</b> (next KL, next POI)</div></div></div>
+
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text">Measure angle: <b>pulse wave start → TP level A</b></div><div class="item-note">Higher angle = faster & safer arrival</div></div></div>
+
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text">Measure angle: <b>pulse wave start → TP level B</b> (further target)</div></div></div>
+
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text">Choose TP with <b>angle ≥ 67.5°</b> — higher angle always preferred</div></div></div>
+
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text"><b>Do NOT chase the full cycle</b> — take the best, safest section only</div></div></div>
+  </div>
+</div>
+
+<!-- STRATEGY SELECTOR -->
+<div class="strat3">
+  <!-- CKL -->
+  <div class="scell">
+    <div class="strat-lbl">STRATEGY SELECTOR</div>
+    <div class="strat-title-row"><span class="strat-title ckl">CKL Strategy</span>&nbsp;<span class="tag tag-trend">TREND</span></div>
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text">Up trend + <b>strong MMT</b> → use CKL</div></div></div>
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text">Trade with the trend — <b>set and forget</b></div></div></div>
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text">No confirmation step needed</div></div></div>
+  </div>
+
+  <!-- SMC -->
+  <div class="scell">
+    <div class="strat-lbl">STRATEGY SELECTOR</div>
+    <div class="strat-title-row"><span class="strat-title smc">SMC Strategy</span>&nbsp;<span class="tag tag-smmt">STRONG MMT</span></div>
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text">Up trend + <b>very strong MMT</b> → use SMC</div></div></div>
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text">Used when market momentum is at its peak</div></div></div>
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text">No confirmation step needed</div></div></div>
+  </div>
+
+  <!-- UKL -->
+  <div class="scell">
+    <div class="strat-lbl">STRATEGY SELECTOR</div>
+    <div class="strat-title-row"><span class="strat-title ukl">UKL Strategy</span>&nbsp;<span class="tag tag-counter">COUNTER</span></div>
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text">Up trend + <b>weak MMT</b> → use UKL</div></div></div>
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text">Trade against the trend — reversal play</div></div></div>
+    <div class="item" onclick="tog(this)"><div class="cb"><svg class="ck" width="11" height="8" viewBox="0 0 11 8"><polyline points="1,4 4,7 10,1" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="item-body"><div class="item-text"><b>Requires Shock Move confirmation</b> (Step 06)</div></div></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer-tags">
+  <span class="ftag">01 Read Wave</span>
+  <span class="ftag">02 Define Trend</span>
+  <span class="ftag">03 MMT Check</span>
+  <span class="ftag">04 KL Zone FMC</span>
+  <span class="ftag">05 POI Zone FMC</span>
+  <span class="ftag">06 Shock Move</span>
+  <span class="ftag">07 Take Profit</span>
+</div>
+<div class="footer-brand">NCI TRADING · BC 2025</div>
+
+<script>
+var TOTAL=document.querySelectorAll('.item').length;
+document.getElementById('prog-lbl').textContent='0 / '+TOTAL+' CHECKED';
+function tog(el){el.classList.toggle('ticked');save();upd()}
+function upd(){
+  var n=document.querySelectorAll('.item.ticked').length;
+  var pct=Math.round(n/TOTAL*100);
+  document.getElementById('prog-lbl').textContent=n+' / '+TOTAL+' CHECKED';
+  document.getElementById('prog-pct').textContent=pct+'%';
+  document.getElementById('prog-fill').style.width=pct+'%';
+}
+function save(){
+  var s=[];
+  document.querySelectorAll('.item').forEach(function(r){s.push(r.classList.contains('ticked')?1:0)});
+  try{localStorage.setItem('pretrade_bc2025',JSON.stringify(s))}catch(e){}
+}
+function resetAll(){
+  document.querySelectorAll('.item').forEach(function(r){r.classList.remove('ticked')});
+  try{localStorage.removeItem('pretrade_bc2025')}catch(e){}
+  upd();
+}
+(function load(){
+  try{
+    var s=JSON.parse(localStorage.getItem('pretrade_bc2025')||'[]');
+    var items=document.querySelectorAll('.item');
+    s.forEach(function(v,i){if(v&&items[i])items[i].classList.add('ticked')});
+    upd();
+  }catch(e){upd()}
+})();
+</script>
+</body>
+</html>
